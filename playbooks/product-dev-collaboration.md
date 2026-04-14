@@ -10,8 +10,8 @@ The AI-DLC system is not dev-only. Several skills are designed for the product s
 
 | Skill | Who runs it | Output |
 |-------|-------------|--------|
-| `/discover` | **Product** | `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/discovery/YYYY-MM-DD-<slug>.discovery.md` |
-| `/analyze-requirements` | **Product** | `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/requirements.prd.md` |
+| `/discover` | **Product** | `${DLC_ARTIFACT_ROOT:-.dlc}/discovery/YYYY-MM-DD-<slug>.discovery.md` |
+| `/analyze-requirements` | **Product** | `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/requirements.prd.md` |
 | `/create-issues` | **Product** (or dev) | GitHub issues (epic + children) |
 | `/orchestrate-sdlc` | **Dev** | Feature branch, PRs, merge-ready code |
 | `/hotfix` | **Dev** | Hotfix branch and PR |
@@ -53,7 +53,7 @@ Paste the brief when asked. The skill will:
 2. Draft a full PRD with numbered acceptance criteria, scope, out-of-scope, non-functional requirements, and open questions.
 3. Stop at a checkpoint for your approval.
 
-You edit the PRD in place. It lands at `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/requirements.prd.md`. The PRD is a markdown file in the repo — commit it on a branch so dev can see it.
+You edit the PRD in place. It lands at `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/requirements.prd.md`. The PRD is a markdown file in the repo — commit it on a branch so dev can see it.
 
 See [analyze-requirements reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/analyze-requirements.md) for the full workflow.
 
@@ -88,7 +88,7 @@ The orchestrator reads the linked PRD from the artifact directory, produces a te
 When dev receives an issue number, the orchestrator automatically reads:
 
 - The issue body (short description, acceptance criteria)
-- The linked PRD at `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/requirements.prd.md` (full detail)
+- The linked PRD at `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/requirements.prd.md` (full detail)
 - The epic issue's strategic context (if linked)
 
 If the PRD is missing or incomplete, `analyze-requirements` will be re-invoked inline and will ask **product** for the missing pieces via a comment on the issue. You (product) will see the question in your GitHub notifications, not in a Claude Code session — which is how cross-team collaboration scales.

@@ -4,7 +4,7 @@ You have a raw idea but no clear scope, user stories, or acceptance criteria yet
 
 > **Prerequisite**: you have read [core-workflow.md](../core-workflow.md) and have Claude Code running inside the repo root.
 
-![Product discovery flow](../images/product-discovery.png)
+![Product discovery flow](../images/product-discovery-flow.png)
 
 ## When to run discovery
 
@@ -88,7 +88,7 @@ For the full decision matrix, see the [product-discovery skill reference](https:
 ## 6. Output
 
 ```
-${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/discovery/YYYY-MM-DD-<slug>.discovery.md
+${DLC_ARTIFACT_ROOT:-.dlc}/discovery/YYYY-MM-DD-<slug>.discovery.md
 ```
 
 Sections you'll see in the brief:

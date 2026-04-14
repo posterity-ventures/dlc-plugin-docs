@@ -101,7 +101,7 @@ If the symptom you see does not match anything here, start with the [diagnostic 
 - **Fix**: Trust `Current phase:` — that is the routing source of truth per the [sdlc-intake reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/sdlc-intake.md). Hand-edit the table to match. Log the discrepancy in the Decisions Log so the next resume knows you reconciled it.
 - **Prevention**: Only skills should update `state.md`. If you have to hand-edit it, that is a sign the skill hit an edge case — consider reporting it.
 
-### `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/` is missing a file the orchestrator expects
+### `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/` is missing a file the orchestrator expects
 
 - **Likely cause**: the orchestrator started a new run but the previous run's cleanup removed too much.
 - **Fix**:
@@ -109,7 +109,7 @@ If the symptom you see does not match anything here, start with the [diagnostic 
   resume the SDLC for <slug>, reconstruct missing artifacts from git history
   ```
   The orchestrator will read commits on the feature branch and regenerate the missing files where possible. If that fails, start a fresh run with a new slug and copy over what you can.
-- **Prevention**: Do not `rm -rf ${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/` between runs. `finalize-sdlc` handles cleanup — let it.
+- **Prevention**: Do not `rm -rf ${DLC_ARTIFACT_ROOT:-.dlc}/` between runs. `finalize-sdlc` handles cleanup — let it.
 
 ### Stale artifact directories are piling up
 
@@ -151,6 +151,8 @@ This is the one path where you do not use `/orchestrate-sdlc`. Use `/hotfix` ins
 /hotfix <description of production issue>
 ```
 
+![Hotfix path — 2 hard-pause gates + back-merge](../images/hotfix-flow.png)
+
 The hotfix skill:
 
 1. Branches from `prod` (not `main`) so the fix lands in production history.
@@ -171,7 +173,7 @@ When you do not know where to start, run these in order:
 
 ```bash
 # What state is the current SDLC run in?
-cat ${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/*/state.md | head -30
+cat ${DLC_ARTIFACT_ROOT:-.dlc}/*/state.md | head -30
 
 # What worktrees exist and where are they?
 git worktree list
@@ -180,7 +182,7 @@ git worktree list
 git branch -vv
 
 # What is the recent decision log for the current run?
-grep -A2 "AUTOPILOT DECISION\|Phase" ${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/*/state.md | tail -40
+grep -A2 "AUTOPILOT DECISION\|Phase" ${DLC_ARTIFACT_ROOT:-.dlc}/*/state.md | tail -40
 
 # What hooks are wired up?
 cat .claude/settings.json | grep -A2 hooks
@@ -189,14 +191,20 @@ cat .claude/settings.json | grep -A2 hooks
 cat .claude/settings.json | grep -A3 mcpServers
 
 # Recent telemetry events for the current run
-tail -20 ${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/*/telemetry.jsonl 2>/dev/null
+tail -20 ${DLC_ARTIFACT_ROOT:-.dlc}/*/telemetry.jsonl 2>/dev/null
 ```
 
-If telemetry is enabled, `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/telemetry.jsonl` contains a line-per-event record of every tool call, subagent dispatch, and hook invocation. It is the single most useful diagnostic artifact when a run goes sideways. See [telemetry reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/telemetry.md).
+If telemetry is enabled, `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/telemetry.jsonl` contains a line-per-event record of every tool call, subagent dispatch, and hook invocation. It is the single most useful diagnostic artifact when a run goes sideways. See [telemetry reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/telemetry.md).
 
 ---
 
 ## Escalation paths
+
+### How stabilize-pr classifies and routes failures
+
+![PR stabilization escalation routing](../images/escalation-routing.png)
+
+Each CI failure, reviewer comment, or scan finding is classified and routed — `flaky_test → retry_ci`, `merge_conflict → auto_fix`, `ai_review_unresolved` / `human_review` → `triage`, `security_scan` → `hard_pause`, `design_delta` → route back to Phase 2c for a design delta. The orchestrator only involves you when the classifier lands on `hard_pause` or the escalation counter hits 2.
 
 ### When the orchestrator hard-pauses for your judgment
 
@@ -211,7 +219,7 @@ You will see a message like `Escalation counter = 2, pausing for user input` wit
 1. Stop the current session (`Ctrl-C` or close the terminal).
 2. Read `state.md` and `escalation-context.md`.
 3. If the state is recoverable, edit `state.md` to mark the failing phase `blocked` with a note, restart Claude Code, and type `resume the SDLC for <slug>`.
-4. If the state is not recoverable, move the artifact directory aside (`mv ${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug> ${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/_failed_<slug>_<date>`) and start fresh with a new slug. You did not lose the work — it is still in git history.
+4. If the state is not recoverable, move the artifact directory aside (`mv ${DLC_ARTIFACT_ROOT:-.dlc}/<slug> ${DLC_ARTIFACT_ROOT:-.dlc}/_failed_<slug>_<date>`) and start fresh with a new slug. You did not lose the work — it is still in git history.
 
 ### When to file a bug report against the system itself
 

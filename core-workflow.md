@@ -34,14 +34,14 @@ The shortest path from idea to merge-ready PR:
 That's it. The orchestrator will:
 
 1. Create a feature branch and isolated worktree.
-2. Draft a PRD at `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/requirements.prd.md`.
+2. Draft a PRD at `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/requirements.prd.md`.
 3. Run security / UX reviews only if triggers match (they won't here — this is a backend endpoint).
-4. Produce a tech design at `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/designs/tech-design.md`.
+4. Produce a tech design at `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/designs/tech-design.md`.
 5. Plan and implement the work in Epic-sized increments, each with its own test coverage gate.
 6. Open a PR with `prepare-pr`, run an isolated code review, and stabilize it through CI until it's merge-ready.
 7. Hand control back to you for the merge click.
 
-You can watch the [state file](../skills-guide/concepts.md#state-tracking-and-resume) update as the orchestrator moves through phases. Resume-safe: if you close the session mid-run, launch Claude Code again and type `resume the SDLC for <slug>` — it picks up where it left off by reading `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/state.md`.
+You can watch the [state file](../skills-guide/concepts.md#state-tracking-and-resume) update as the orchestrator moves through phases. Resume-safe: if you close the session mid-run, launch Claude Code again and type `resume the SDLC for <slug>` — it picks up where it left off by reading `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/state.md`.
 
 ## 3. The mental model in 60 seconds
 
@@ -55,14 +55,14 @@ The AI-DLC system is a loose composition of five building blocks. You do not nee
 | **Agent (subagent)** | `.claude/agents/*.md` + platform catalog | A child agent the current agent dispatches for focused work. `coding-agent`, `explore-fast`, `reviewer` are subagents. |
 | **Hook** | `.claude/hooks/*.sh` + `settings.json` | A shell command the harness runs automatically on tool-call events. Pre-push tests and telemetry are hooks. |
 | **Rule** | `.claude/rules/*.md` | Short markdown policies that auto-load into every conversation. `branching.md`, `task-scope.md`, `push-protection.md`. |
-| **Artifact** | `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/` | The structured audit trail of a feature — PRD, design, plans, state, reviews. |
+| **Artifact** | `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/` | The structured audit trail of a feature — PRD, design, plans, state, reviews. |
 
 Rules of thumb:
 
 - **You (the user) invoke skills.** Everything else is internal orchestration.
 - **Skills dispatch agents and follow rules.** You rarely dispatch an agent directly yourself.
 - **Hooks fire on events, not on your command.** They're invisible most of the time — you notice them when a pre-push test fails or when telemetry lands in your artifact directory.
-- **Artifacts are the source of truth for a feature.** Anything the system "remembers" about your feature is in `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/`.
+- **Artifacts are the source of truth for a feature.** Anything the system "remembers" about your feature is in `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/`.
 
 For the full picture see [skills-guide/concepts.md](../skills-guide/concepts.md). You do not need to read it now.
 
@@ -78,6 +78,8 @@ The orchestrator supports three interaction modes. Pick one per session based on
 
 Set the mode inline in the invocation: `/orchestrate-sdlc <description>; autopilot`. If you omit the mode, the orchestrator asks at the start and records your choice in `state.md` so resume keeps the same mode.
 
+![Interaction modes — checkpoint cadence per mode](images/interaction-modes.png)
+
 Three things are **always hard-paused** regardless of mode: direct pushes to `main`/`staging`/`prod` (refused outright), user-confirmation gates in the `hotfix` skill, and the Phase 8 deployment gate. The system errs on the side of asking when the blast radius is large.
 
 ## 5. End-to-end walkthrough
@@ -90,11 +92,11 @@ Here is what a single feature looks like end-to-end in confident mode. You type 
 
 > **Is your idea still fuzzy?** If you don't have a PRD yet and the feature description above would be hard for you to write, start with `/product-discovery` (or its alias `/discover`) first. It runs a framework-driven discovery session — JTBD + Lean Canvas by default, with five frameworks to choose from — and produces a `discovery.md` brief that feeds directly into Phase 1. See the [product-discovery playbook](playbooks/discovery.md) for the selection guide and outputs.
 
-1. **Phase 1 — Requirements.** The orchestrator asks whether you have a PRD or want one generated, then invokes `analyze-requirements` to write `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/add-login-rate-limiting/requirements.prd.md`. Presents a summary and asks: "Proceed to scope assessment?" You approve.
+1. **Phase 1 — Requirements.** The orchestrator asks whether you have a PRD or want one generated, then invokes `analyze-requirements` to write `${DLC_ARTIFACT_ROOT:-.dlc}/add-login-rate-limiting/requirements.prd.md`. Presents a summary and asks: "Proceed to scope assessment?" You approve.
 
 2. **Phase 2a — Scope assessment.** The orchestrator checks trigger rules and detects a security trigger (authentication code path). It tells you so and asks whether to run `review-security` before design. You say yes.
 
-3. **Phase 2b — Security review.** `review-security` analyzes the current auth code and writes `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/add-login-rate-limiting/analysis_output/SECURITY_REVIEW_REPORT.md` with CRITICAL/HIGH findings. The orchestrator reports them and asks to proceed to design.
+3. **Phase 2b — Security review.** `review-security` analyzes the current auth code and writes `${DLC_ARTIFACT_ROOT:-.dlc}/add-login-rate-limiting/analysis_output/SECURITY_REVIEW_REPORT.md` with CRITICAL/HIGH findings. The orchestrator reports them and asks to proceed to design.
 
 4. **Phase 2c — Tech design.** `produce-tech-design` reads the PRD and the security report, produces `designs/tech-design.md` with work items and a DAG, and asks whether to begin implementation.
 
@@ -108,9 +110,9 @@ Here is what a single feature looks like end-to-end in confident mode. You type 
 
 9. **Phase 7 — You merge the PR.** The system hands control to you. Click merge in GitHub.
 
-10. **Phase 8 — Post-merge.** You run `/finalize-sdlc` or the orchestrator resumes automatically; `finalize-sdlc` cleans up transient files under `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/` (keeping PRD, tech design, and review reports), optionally promotes those permanent artifacts to `docs/<slug>/` via `maintain-docs`, waits for deployment, runs smoke tests, closes the linked issue with a structured comment, and updates the epic checklist.
+10. **Phase 8 — Post-merge.** You run `/finalize-sdlc` or the orchestrator resumes automatically; `finalize-sdlc` cleans up transient files under `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/` (keeping PRD, tech design, and review reports), optionally promotes those permanent artifacts to `docs/<slug>/` via `maintain-docs`, waits for deployment, runs smoke tests, closes the linked issue with a structured comment, and updates the epic checklist.
 
-Done. The feature is shipped, the issue is closed, and `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/` contains the permanent audit trail (PRD, design, review report, telemetry).
+Done. The feature is shipped, the issue is closed, and `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/` contains the permanent audit trail (PRD, design, review report, telemetry).
 
 ## 6. What to read next
 
@@ -155,23 +157,13 @@ The branching model is declared in `.claude/branching.json` and consumed by skil
 | `gitflow` | `develop` | `main` | `main` |
 | `trunk-based` | `main` | *(none)* | `main` |
 
-### Visual reference for each preset
+### Visual reference
 
-**GitLab Flow** (this repo's default):
+All four presets side-by-side:
 
-![GitLab Flow](images/gitlab-flow.png)
+![Git flows comparison](images/git-flows-comparison.png)
 
-**GitHub Flow** — single long-lived `main`, continuous deploy on merge:
-
-![GitHub Flow](images/github-flow.png)
-
-**Gitflow** — long-lived `develop` + `main` with release and hotfix branches:
-
-![Gitflow](images/gitflow.png)
-
-**Trunk-Based Development** — short-lived branches, feature-flag gated:
-
-![Trunk-Based](images/trunk-based.png)
+GitLab Flow (this repo's default) promotes feature → main → staging → prod with merge commits at each env boundary. GitHub Flow uses a single long-lived `main` with continuous deploy on merge. Gitflow keeps `develop` and `main` alongside release and hotfix branches for versioned shipping. Trunk-Based Development keeps the trunk always-releasable behind short-lived branches and feature flags.
 
 To adopt a different model, replace `.claude/branching.json` with the matching preset from [`skills/_shared/branching-model.md`](https://github.com/posterity-ventures/dlc-plugin/blob/main/skills/_shared/branching-model.md). Skills that depend on branch names (`hotfix`, `prepare-pr`, `push-protection`) read from the config automatically — no code changes required.
 
