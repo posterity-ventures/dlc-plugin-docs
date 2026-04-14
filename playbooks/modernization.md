@@ -23,7 +23,7 @@ Modernization without a strategy doc is how multi-month rewrites land in a ditch
 2. Commit it to the repo (e.g., at `docs/modernization/<topic>.md`) so reviewers can reference it.
 3. Create an **epic issue** in GitHub linking to the strategy doc. This epic will own every SDLC run the modernization produces.
 
-The strategy doc is the single artifact that does not live under `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/` — it lives in `docs/` because it survives individual feature runs.
+The strategy doc is the single artifact that does not live under `${DLC_ARTIFACT_ROOT:-.dlc}/` — it lives in `docs/` because it survives individual feature runs.
 
 ## 2. Decompose into incrementally shippable chunks
 

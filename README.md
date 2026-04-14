@@ -22,7 +22,7 @@ The building blocks in one sentence each:
 - **Agents (subagents)** — lightweight child agents the agent dispatches in parallel for focused work (exploration, coding, review, testing).
 - **Hooks** — shell commands the harness runs automatically on lifecycle events (tool calls, subagent start/stop).
 - **Rules** — short markdown documents in `.claude/rules/` that auto-load into every conversation as durable project policy.
-- **Artifacts** — structured documents under `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/` (requirements, designs, plans, reviews, state) that form a feature's audit trail.
+- **Artifacts** — structured documents under `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/` (requirements, designs, plans, reviews, state) that form a feature's audit trail.
 - **Worktrees** — `git worktree` isolation so multiple SDLC sessions can run in parallel without stepping on each other.
 
 ![Skill / agent / hook / rule interaction model](images/skill-agent-hook-rule.png)

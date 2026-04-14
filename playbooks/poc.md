@@ -68,7 +68,7 @@ git worktree remove .worktrees/<slug>
 git branch -D feat/<slug>
 ```
 
-Keep `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/` as a record of what was tried. It costs nothing and documents the decision.
+Keep `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/` as a record of what was tried. It costs nothing and documents the decision.
 
 ### 4b. Promote to production work
 
@@ -80,7 +80,7 @@ The POC is promising. You want to finish it properly. Run:
 
 The orchestrator will:
 
-1. Re-read `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/requirements.prd.md` and ask you to expand it (acceptance criteria, edge cases, non-functional requirements).
+1. Re-read `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/requirements.prd.md` and ask you to expand it (acceptance criteria, edge cases, non-functional requirements).
 2. Re-run Phase 2a scope assessment — this time taking any triggers seriously.
 3. Invoke `review-security` and/or `review-ux` if triggered (they often are — real features usually touch auth or UI).
 4. Re-run `produce-tech-design` to produce a full-rigor design.

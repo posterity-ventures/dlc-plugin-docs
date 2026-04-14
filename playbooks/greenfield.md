@@ -16,7 +16,7 @@ Before invoking any skill, write one paragraph answering:
 
 If you already have a PRD or a product brief, skip to step 2. If not, paste this paragraph directly into Claude Code and say: **"Use `/analyze-requirements` to turn this into a PRD."** The skill will ask clarifying questions, draft the PRD, and stop at a checkpoint for your approval.
 
-The output lands at `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/requirements.prd.md`. You own the content — edit it if the skill misrepresented intent.
+The output lands at `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/requirements.prd.md`. You own the content — edit it if the skill misrepresented intent.
 
 ## 2. (Optional) Create tracking issues from the PRD
 
@@ -46,7 +46,7 @@ For a true first-time greenfield run, use `confident` mode (the default). `inter
 |-------|-------------------|----------|
 | **1 — Requirements** | Draft PRD (or re-confirmation of the one you provided) + checkpoint | 1–5 min |
 | **2a — Scope assessment** | Brief log entry naming trigger matches (security / UX) | seconds |
-| **2b — Pre-design reviews** | If triggered: `review-security` and/or `review-ux` produce a report under `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/analysis_output/` | 2–8 min each |
+| **2b — Pre-design reviews** | If triggered: `review-security` and/or `review-ux` produce a report under `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/analysis_output/` | 2–8 min each |
 | **2c — Tech design** | `produce-tech-design` writes `designs/tech-design.md` with epics, work-item DAG, decisions | 3–10 min |
 | **3 — Implementation** | Epic loop: plan → parallel coding subagents → unit tests → coverage gate → polish → commit → push | 10–60 min per epic |
 | **4 — PR creation** | `prepare-pr` syncs with main, drafts a description, opens the PR | 1–2 min |
@@ -81,7 +81,7 @@ If any step fails, `finalize-sdlc` escalates — it will not silently skip a fai
 
 At this point:
 
-- `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/` is the permanent audit trail. Keep it in the repo — do not delete it.
+- `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/` is the permanent audit trail. Keep it in the repo — do not delete it.
 - The feature branch is merged and deleted. The worktree can be cleaned up with `git worktree remove .worktrees/<slug>`.
 - The linked issue is closed with a structured comment listing the PR, deploy time, and smoke-test results.
 - The epic issue checklist is updated.
@@ -97,6 +97,6 @@ Share the PR link and the closeout comment with your team. If you opened the gre
 
 ## Next
 
-- Second feature in the same area? Run `/orchestrate-sdlc` again with a new slug. The orchestrator remembers nothing between runs except what is on disk under `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/`.
+- Second feature in the same area? Run `/orchestrate-sdlc` again with a new slug. The orchestrator remembers nothing between runs except what is on disk under `${DLC_ARTIFACT_ROOT:-.dlc}/`.
 - Need a lighter-weight path? See [poc.md](poc.md).
 - Bug fix or small change inside this feature later? See [brownfield.md](brownfield.md).

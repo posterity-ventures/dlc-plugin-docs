@@ -27,7 +27,7 @@ Or map the full repository if you are unsure which subsystem is relevant:
 /map-codebase
 ```
 
-The skill dispatches 4 parallel subagents to investigate architecture, conventions, dependencies, and test infrastructure. The output lands at `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/maps/YYYY-MM-DD-<name>.md`.
+The skill dispatches 4 parallel subagents to investigate architecture, conventions, dependencies, and test infrastructure. The output lands at `${DLC_ARTIFACT_ROOT:-.dlc}/maps/YYYY-MM-DD-<name>.md`.
 
 **Time**: 2-5 minutes depending on codebase size.
 
@@ -91,7 +91,7 @@ If you want full end-to-end delivery in one command, say so explicitly:
 After the PRD is produced, you have two paths:
 
 **Path A — Review first, then deliver:**
-1. Read `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/requirements.prd.md`
+1. Read `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/requirements.prd.md`
 2. Edit anything that does not match your intent
 3. Run `/orchestrate-sdlc` to pick up from Phase 2a (scope assessment)
 

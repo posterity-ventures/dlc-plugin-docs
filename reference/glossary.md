@@ -12,9 +12,9 @@ Every term used in this guide, defined in one sentence. When in doubt about jarg
 
 **analyze-requirements** — the skill that turns a plain-language brief into a full PRD. See [reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/analyze-requirements.md).
 
-**Artifact** — a structured document under `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/` (PRD, design, plan, state, reviews, telemetry) that forms a feature's audit trail.
+**Artifact** — a structured document under `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/` (PRD, design, plan, state, reviews, telemetry) that forms a feature's audit trail.
 
-**Artifact directory** — `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/`; the per-feature scoped directory where all artifacts live.
+**Artifact directory** — `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/`; the per-feature scoped directory where all artifacts live.
 
 **Autopilot** — an interaction mode where the orchestrator runs without pausing except at hard-pause gates; used for overnight and trusted work.
 

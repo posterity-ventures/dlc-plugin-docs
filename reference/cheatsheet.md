@@ -39,6 +39,8 @@ See the [skills quickref aliases table](skills-quickref.md#alias-commands) for t
 
 **Hard-pause gates (all modes)**: direct pushes to `main`/`staging`/`prod` (refused), `hotfix` confirmation gates, Phase 8 deployment gate.
 
+![Interaction modes — checkpoint cadence per mode](../images/interaction-modes.png)
+
 ## Phase map
 
 | Phase | Owner | Output |
@@ -71,7 +73,7 @@ See [hooks reference](https://github.com/posterity-ventures/dlc-plugin/blob/main
 
 ## Telemetry
 
-`${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/telemetry.jsonl` — one JSON object per event, line-delimited. Useful fields:
+`${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/telemetry.jsonl` — one JSON object per event, line-delimited. Useful fields:
 
 - `event` — event name (`tool_call`, `subagent_dispatch`, `hook_fire`, `phase_transition`)
 - `timestamp` — ISO 8601 UTC
@@ -82,7 +84,7 @@ See [hooks reference](https://github.com/posterity-ventures/dlc-plugin/blob/main
 Diagnostic one-liner:
 
 ```bash
-tail -20 ${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/telemetry.jsonl | jq -c '{event, tool, outcome, duration_ms}'
+tail -20 ${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/telemetry.jsonl | jq -c '{event, tool, outcome, duration_ms}'
 ```
 
 See [telemetry reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/telemetry.md).
@@ -108,7 +110,7 @@ Auto-loaded into every conversation. Precedence: project rules → user rules �
 ## Artifact directory layout
 
 ```
-${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/
+${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/
 ├── state.md                    # Single source of truth for resume
 ├── requirements.prd.md         # Phase 1 output
 ├── analysis_output/
@@ -159,16 +161,16 @@ See [mcp reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/d
 
 ```bash
 # Current phase for every in-flight SDLC
-grep "Current phase" ${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/*/state.md
+grep "Current phase" ${DLC_ARTIFACT_ROOT:-.dlc}/*/state.md
 
 # Recent decisions across all runs
-grep -h "AUTOPILOT DECISION\|Phase" ${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/*/state.md | tail -40
+grep -h "AUTOPILOT DECISION\|Phase" ${DLC_ARTIFACT_ROOT:-.dlc}/*/state.md | tail -40
 
 # Stale hooks or broken settings
 cat .claude/settings.json | jq '.hooks, .mcpServers'
 
 # Last 10 tool calls for a specific run
-tail -10 ${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/telemetry.jsonl | jq -c .
+tail -10 ${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/telemetry.jsonl | jq -c .
 
 # PR and CI state
 gh pr checks <PR-number>

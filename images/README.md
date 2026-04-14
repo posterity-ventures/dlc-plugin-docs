@@ -9,13 +9,14 @@ This directory contains the visual diagrams embedded throughout the onboarding g
 | [_style.md](_style.md) | all prompts | Shared style preamble that every `.prompt.md` references |
 | [sdlc-lifecycle.png](sdlc-lifecycle.png) | [README.md](../README.md) | AI-DLC 8-phase lifecycle, horizontal |
 | [skill-agent-hook-rule.png](skill-agent-hook-rule.png) | [README.md](../README.md) | Four building blocks and how they interact |
-| [artifacts-lifecycle.png](artifacts-lifecycle.png) | [core-workflow.md](../core-workflow.md) | `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/` layout with permanent vs transient |
-| [gitlab-flow.png](gitlab-flow.png) | [cheatsheet.md](../reference/cheatsheet.md), [core-workflow.md §9](../core-workflow.md#9-branching-model-configuration) | GitLab Flow — feature → main → staging → prod |
-| [github-flow.png](github-flow.png) | [core-workflow.md §9](../core-workflow.md#9-branching-model-configuration) | GitHub Flow — single `main`, continuous deploy |
-| [gitflow.png](gitflow.png) | [core-workflow.md §9](../core-workflow.md#9-branching-model-configuration) | Gitflow — `develop` + `main` with release branches |
-| [trunk-based.png](trunk-based.png) | [core-workflow.md §9](../core-workflow.md#9-branching-model-configuration) | Trunk-Based — short-lived branches, feature-flag gated |
-| [product-discovery.png](product-discovery.png) | [playbooks/discovery.md](../playbooks/discovery.md), [core-workflow.md §5](../core-workflow.md#5-end-to-end-walkthrough) | Discovery pipeline: raw idea → framework → `discovery.md` brief |
+| [artifacts-lifecycle.png](artifacts-lifecycle.png) | [core-workflow.md](../core-workflow.md) | `${DLC_ARTIFACT_ROOT:-.dlc}/<slug>/` layout with permanent vs transient |
+| [gitlab-flow.png](gitlab-flow.png) | [cheatsheet.md](../reference/cheatsheet.md) | GitLab Flow — feature → main → staging → prod (default preset, shown alone on the cheatsheet for emphasis) |
+| [git-flows-comparison.png](git-flows-comparison.png) | [core-workflow.md §9](../core-workflow.md#9-branching-model-configuration--read-this-if-youre-adopting-claude-in-another-repo) | 2×2 grid of all four supported presets: GitLab Flow, GitHub Flow, Gitflow, Trunk-based |
+| [interaction-modes.png](interaction-modes.png) | [core-workflow.md §4](../core-workflow.md#4-interaction-modes), [cheatsheet.md](../reference/cheatsheet.md) | Checkpoint cadence per mode (interactive / confident / autopilot) with Decisions Log |
+| [product-discovery-flow.png](product-discovery-flow.png) | [playbooks/discovery.md](../playbooks/discovery.md) | 7-phase discovery flow: Framing → Research → Framework Passes → Concerns+RAID → Scope Clustering → Synthesis → Handoff |
 | [discovery-framework-modes.png](discovery-framework-modes.png) | [playbooks/discovery.md](../playbooks/discovery.md) | Six framework paths grid (JTBD+Lean Canvas default, SWOT+Kano, Porter+BMC, OST, Working Backward, Help me choose) |
+| [hotfix-flow.png](hotfix-flow.png) | [troubleshooting.md](../playbooks/troubleshooting.md#hotfix-path) | Hotfix path with 2 hard-pause gates and back-merge to staging |
+| [escalation-routing.png](escalation-routing.png) | [troubleshooting.md](../playbooks/troubleshooting.md#escalation-paths) | PR stabilization escalation classifier → retry_ci / auto_fix / triage / hard_pause / route-to-2c |
 | [worktree-isolation.png](worktree-isolation.png) | [core-workflow.md](../core-workflow.md) | Shared `.git/` + independent worktree checkouts |
 | [product-dev-handoff.png](product-dev-handoff.png) | [product-dev-collaboration.md](../playbooks/product-dev-collaboration.md) | Swimlane handoff between Product and Dev |
 | [hooks-telemetry.png](hooks-telemetry.png) | [cheatsheet.md](../reference/cheatsheet.md) | Tool-call lifecycle with hook insertion and telemetry sink |
