@@ -97,7 +97,7 @@ Sometimes you want to keep the POC open as a reference implementation without me
 
 Even in POC mode, a few things are never relaxed:
 
-- **Push protection.** `main`, `staging`, `prod` still refuse direct pushes. No override. See [push-protection rule](../../../rules/push-protection.md).
+- **Push protection.** `main`, `staging`, `prod` still refuse direct pushes. No override. See [push-protection rule](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/push-protection.md).
 - **Worktree isolation.** You still get a worktree. Never run two POCs on the same branch.
 - **Commit hygiene.** Conventional commit style still applies. The POC's commits become the promoted feature's commits.
 - **Secrets.** POCs that need a new secret must still go through the normal secret-provisioning path. Never commit credentials, even for throwaway work.

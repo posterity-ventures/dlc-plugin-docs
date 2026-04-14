@@ -24,7 +24,7 @@ Read the code in <module path> and explain how <behavior> currently works. Do no
 
 You can do this in a fresh Claude Code session or as a precursor to `/orchestrate-sdlc`. The goal is to build a mental model first. If you cannot describe the current behavior in 3 sentences, you are not ready to fix it.
 
-See the [explore-fast agent reference](../../skills-guide/agents.md) for what this subagent is good at.
+See the [explore-fast agent reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/agents.md) for what this subagent is good at.
 
 ## 2. Kick off the SDLC with explicit scoping
 
@@ -32,7 +32,7 @@ See the [explore-fast agent reference](../../skills-guide/agents.md) for what th
 /orchestrate-sdlc fix <bug description>, limit scope to <module>; confident
 ```
 
-The `limit scope to` phrase is important. Without it, coding subagents may notice adjacent smells and "opportunistically" fix them — which multiplies risk. The [task-scope rule](../../../rules/task-scope.md) already enforces this at the rule level, but restating it in the invocation makes the first phase faster.
+The `limit scope to` phrase is important. Without it, coding subagents may notice adjacent smells and "opportunistically" fix them — which multiplies risk. The [task-scope rule](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/task-scope.md) already enforces this at the rule level, but restating it in the invocation makes the first phase faster.
 
 If you have a GitHub issue for the bug, pass the issue number:
 
@@ -69,7 +69,7 @@ For brownfield, the orchestrator runs `build-unit-tests` **before** the fix when
 
 This order catches two failure modes: "fix didn't actually work" and "the bug wasn't what we thought it was." It also gives you a regression test for free.
 
-If the bug is hard to reproduce in a unit test (concurrency, timing, external system), write an integration test instead. The `build-unit-tests` skill understands this and will adjust its approach — see the [build-unit-tests reference](../../skills-guide/skills/build-unit-tests.md).
+If the bug is hard to reproduce in a unit test (concurrency, timing, external system), write an integration test instead. The `build-unit-tests` skill understands this and will adjust its approach — see the [build-unit-tests reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/build-unit-tests.md).
 
 ### Coverage strategy on legacy modules
 
@@ -83,7 +83,7 @@ Brownfield PRs get the same `review-pr` + `stabilize-pr` loop as greenfield. The
 - "Are there other callers that depend on the old behavior?" → the reviewer will have searched; if not, search yourself
 - "Is there a test for the regression case you fixed?" → there should be, because you wrote it in step 5
 
-`stabilize-pr` will auto-fix high-confidence findings and surface the rest for your judgment. See [stabilize-pr reference](../../skills-guide/skills/stabilize-pr.md).
+`stabilize-pr` will auto-fix high-confidence findings and surface the rest for your judgment. See [stabilize-pr reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/stabilize-pr.md).
 
 ## 7. Hotfix path (out-of-band brownfield)
 
@@ -93,7 +93,7 @@ If the bug is **actively causing user-visible harm** in production and you canno
 /hotfix <bug description>
 ```
 
-Hotfix is a separate skill with its own workflow: branch from `prod`, minimal diff, two hard-pause gates, explicit revert mode. See the [hotfix skill reference](../../skills-guide/skills/hotfix.md) and the [troubleshooting playbook](troubleshooting.md#hotfix-path) for the full incident-response walkthrough.
+Hotfix is a separate skill with its own workflow: branch from `prod`, minimal diff, two hard-pause gates, explicit revert mode. See the [hotfix skill reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/hotfix.md) and the [troubleshooting playbook](troubleshooting.md#hotfix-path) for the full incident-response walkthrough.
 
 Use hotfix only for true incidents. Regular bugs go through `/orchestrate-sdlc`.
 
@@ -113,7 +113,7 @@ The cost of a revert is cheap; the cost of a bad patch-on-patch loop is not.
 - **Scope creep.** "While I'm here" is how a 3-line fix becomes a 300-line PR. Use a separate branch for the cleanup.
 - **Assuming the tests pass = it works.** For brownfield bugs, the existing test suite probably passes before your fix and after. That's why you add a new test that fails before the fix.
 - **Editing files you did not read.** The coding subagents will decline to do this, but so should you. Always read the surrounding context before making changes.
-- **Ignoring the [task-scope rule](../../../rules/task-scope.md).** It exists because brownfield scope creep is the most common class of SDLC failure in this repo.
+- **Ignoring the [task-scope rule](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/task-scope.md).** It exists because brownfield scope creep is the most common class of SDLC failure in this repo.
 
 ## Next
 

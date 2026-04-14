@@ -50,7 +50,7 @@ Run `/create-issues` with the strategy doc as the input:
 
 The skill reads the strategy, proposes an epic and a child issue per increment, shows you the list, and only creates them after approval. The epic issue becomes the anchor for every increment PR and the single place stakeholders watch for progress.
 
-See [create-issues reference](../../skills-guide/skills/create-issues.md) for the label taxonomy and epic linking behavior.
+See [create-issues reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/create-issues.md) for the label taxonomy and epic linking behavior.
 
 ## 4. Run one SDLC per increment
 
@@ -62,7 +62,7 @@ For each child issue in the epic:
 
 Each run produces its own worktree, its own artifacts directory, its own PR. The epic checklist ticks off one item per merged PR.
 
-**Do not run increments in parallel on overlapping code.** You can run them in parallel on disjoint modules — worktrees keep them isolated. See the [worktree-safety rule](../../../rules/worktree-safety.md).
+**Do not run increments in parallel on overlapping code.** You can run them in parallel on disjoint modules — worktrees keep them isolated. See the [worktree-safety rule](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/worktree-safety.md).
 
 ## 5. Risk management per increment
 
@@ -84,7 +84,7 @@ For increments that touch the hot path (request handling, database writes, payme
 ...; deploy canary-first with 5% traffic for 1 hour before full rollout
 ```
 
-`finalize-sdlc` Phase 8 understands canary waits — see [finalize-sdlc reference](../../skills-guide/skills/finalize-sdlc.md).
+`finalize-sdlc` Phase 8 understands canary waits — see [finalize-sdlc reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/finalize-sdlc.md).
 
 ### Require enhanced monitoring
 
@@ -101,7 +101,7 @@ On a long-running modernization, the ground shifts. Other PRs land on `main` tha
    ```
 3. Let `sdlc-deliver` re-stabilize from Phase 5 onward.
 
-The [sdlc-deliver reference](../../skills-guide/skills/sdlc-deliver.md) documents the design-level escalation path — it routes back through the dispatcher rather than forcing you to start from Phase 1.
+The [sdlc-deliver reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/sdlc-deliver.md) documents the design-level escalation path — it routes back through the dispatcher rather than forcing you to start from Phase 1.
 
 ## 7. Decommissioning the old code
 

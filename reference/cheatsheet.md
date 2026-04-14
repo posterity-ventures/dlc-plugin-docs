@@ -8,15 +8,26 @@ One-page condensed reference. Keep it open in a side tab while you work.
 |---------|--------------|
 | `/orchestrate-sdlc <feature>; <mode>` | Full SDLC run. Modes: `interactive`, `confident` (default), `autopilot` |
 | `/orchestrate-sdlc <issue-number>; <mode>` | Full SDLC run anchored to a GitHub issue |
-| `resume the SDLC for <slug>` | Resume an interrupted run from `state.md` |
-| `/analyze-requirements` | Turn a brief into a PRD |
-| `/create-issues` | Decompose a PRD into GitHub issues |
+| `/run` / `/next` | Aliases for `/orchestrate-sdlc`. `/next` = resume from `state.md` |
+| `/product-discovery` or `/discover <idea>` | Turn a raw idea into a `discovery.md` brief (framework-driven) |
+| `/analyze-requirements` or `/reqs` | Turn a brief into a PRD |
+| `/create-issues` or `/issues` | Decompose a PRD into GitHub issues |
+| `/produce-tech-design` or `/design` | Write a tech design from a PRD |
+| `/plan-implementation` or `/plan` | Generate an epic implementation plan |
+| `/map-codebase` or `/map <subsystem>` | Fast parallel codebase map |
+| `/new-feature <description>` | Cold-start front door for unfamiliar codebases |
 | `/hotfix <description>` | Minimal-diff hotfix branched from `prod` |
-| `/review-pr <PR>` | Interactive PR review |
-| `/babysit-pr <PR>` | Long-running review-stabilize loop |
-| `/finalize-sdlc <slug>` | Post-merge cleanup and closeout |
+| `/review-pr <PR>` or `/review` | Interactive PR review |
+| `/babysit-pr <PR>` or `/babysit` | Long-running review-stabilize loop |
+| `/prepare-pr` or `/ship` | Open the PR |
+| `/stabilize-pr` or `/stabilize` | Drive CI + review to green |
+| `/verify` | Phase 6.5 UAT screenshot checkpoint |
+| `/finalize-sdlc <slug>` or `/finalize` | Post-merge cleanup and closeout |
 | `/maintain-docs` | Documentation drift check and update |
 | `/image-generation <description>` | Structured image generation via mcp-image |
+| `/help` | In-session cheatsheet — verb → canonical skill + common workflows |
+
+See the [skills quickref aliases table](skills-quickref.md#alias-commands) for the full alias → canonical mapping.
 
 ## Interaction modes
 
@@ -56,7 +67,7 @@ Hooks are shell commands the harness runs on events. Configured under the `hooks
 | `SubagentStart` | When a subagent is dispatched | Start telemetry timer |
 | `SubagentStop` | When a subagent returns | Record duration, emit event |
 
-See [hooks reference](../../skills-guide/hooks.md) for matcher syntax and examples.
+See [hooks reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/hooks.md) for matcher syntax and examples.
 
 ## Telemetry
 
@@ -74,7 +85,7 @@ Diagnostic one-liner:
 tail -20 ${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/telemetry.jsonl | jq -c '{event, tool, outcome, duration_ms}'
 ```
 
-See [telemetry reference](../../skills-guide/telemetry.md).
+See [telemetry reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/telemetry.md).
 
 ## Rules (`.claude/rules/`)
 
@@ -82,18 +93,17 @@ See [telemetry reference](../../skills-guide/telemetry.md).
 
 Auto-loaded into every conversation. Precedence: project rules → user rules → system defaults. The rules in this repo:
 
-> **Branching model assumption**: these rules and several skills (`hotfix`, `prepare-pr`, `sdlc-deliver`) hard-code **GitLab Flow** (`main → staging → prod`). If you're adopting this plugin into a repo that uses GitHub Flow, Gitflow, or trunk-based, see [core-workflow.md §9](../core-workflow.md#9-branching-model-assumptions--read-this-if-youre-adopting-claude-in-another-repo) and tracking issue [#1586](https://github.com/posterity-ventures/k2_mvp/issues/1586).
-
+> **Branching model**: the plugin reads the model from `.claude/branching.json` and supports four presets — `gitlab-flow` (default), `github-flow`, `gitflow`, and `trunk-based`. Skills that depend on branch names (`hotfix`, `prepare-pr`, `push-protection`) consume it automatically via `skills/_shared/branching-model.sh`. See [core-workflow.md §9](../core-workflow.md#9-branching-model-assumptions--read-this-if-youre-adopting-claude-in-another-repo).
 
 | Rule | Summary |
 |------|---------|
-| [branching.md](../../../rules/branching.md) | GitLab Flow: `feature/* → main → staging → prod`. Promotion PRs merge-commit only |
-| [push-protection.md](../../../rules/push-protection.md) | Never push directly to protected branches |
-| [worktree-safety.md](../../../rules/worktree-safety.md) | Worktree isolation, no force checkout, max 2 retries |
-| [ci-stabilization.md](../../../rules/ci-stabilization.md) | Unit tests only locally, max 3 fix-push iterations, read full CI log |
-| [task-scope.md](../../../rules/task-scope.md) | Do exactly what was asked; confirm before extras |
-| [prompt-standards.md](../../../rules/prompt-standards.md) | Layered XML prompt architecture, version headers, failure patterns |
-| [claude-md-governance.md](../../../rules/claude-md-governance.md) | CLAUDE.md is 40-line cap; rules live in `.claude/rules/` |
+| [branching.md](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/branching.md) | Configurable via `.claude/branching.json`. Defaults to GitLab Flow (`feature/* → main → staging → prod`, promotion PRs merge-commit only) |
+| [push-protection.md](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/push-protection.md) | Never push directly to protected branches |
+| [worktree-safety.md](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/worktree-safety.md) | Worktree isolation, no force checkout, max 2 retries |
+| [ci-stabilization.md](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/ci-stabilization.md) | Unit tests only locally, max 3 fix-push iterations, read full CI log |
+| [task-scope.md](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/task-scope.md) | Do exactly what was asked; confirm before extras |
+| [prompt-standards.md](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/prompt-standards.md) | Layered XML prompt architecture, version headers, failure patterns |
+| [claude-md-governance.md](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/claude-md-governance.md) | CLAUDE.md is 40-line cap; rules live in `.claude/rules/` |
 
 ## Artifact directory layout
 
@@ -132,7 +142,7 @@ git worktree remove .worktrees/<slug>
 git worktree prune
 ```
 
-See [worktree-safety rule](../../../rules/worktree-safety.md).
+See [worktree-safety rule](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/worktree-safety.md).
 
 ## MCP servers
 
@@ -143,7 +153,7 @@ Configured in `.claude/settings.json` under `mcpServers`. In this repo:
 | `context7` | Current library/framework documentation | `resolve-library-id`, `query-docs` |
 | `mcp-image` | Image generation (Gemini-backed) | `generate_image` |
 
-See [mcp reference](../../skills-guide/mcp.md).
+See [mcp reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/mcp.md).
 
 ## Diagnostic one-liners
 
@@ -167,7 +177,7 @@ gh run view <run-id> --log-failed
 
 ## Commit conventions
 
-`<type>(<scope>): <description>` — see [CLAUDE.md](../../../../CLAUDE.md).
+`<type>(<scope>): <description>` — see [CLAUDE.md](https://github.com/posterity-ventures/dlc-plugin/blob/main/CLAUDE.md).
 
 Types: `feat`, `fix`, `chore`, `refactor`, `test`, `docs`, `ci`.
 

@@ -28,7 +28,7 @@ Greenfield features usually benefit from tracking issues: one for the overall ep
 
 The skill reads the PRD, proposes a set of issues (epic + children), shows you the full list, and only creates them in GitHub after you approve. You get back the issue numbers — save them. You will reference the epic issue from the orchestrate run.
 
-See the [create-issues skill reference](../../skills-guide/skills/create-issues.md) for the label taxonomy, epic linking behavior, and how to reuse an existing epic instead of creating a new one.
+See the [create-issues skill reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/create-issues.md) for the label taxonomy, epic linking behavior, and how to reuse an existing epic instead of creating a new one.
 
 ## 3. Kick off the SDLC
 
@@ -64,7 +64,7 @@ On a fresh feature the first deploy usually needs two extra things the SDLC will
 - **Secrets provisioning.** If the feature reads a new env var, add it to the secret store and the K8s ConfigMap before merging. The orchestrator will call this out in Phase 4 if it detects new env var references.
 - **Migration review.** If the feature introduces a database migration, Phase 2b should have picked it up; double-check that the PR description lists the migration file and any runbook steps. If it doesn't, ask the orchestrator to re-run Phase 5 stabilization with "re-check migration safety" in the prompt.
 
-Both of these are called out as checkpoints in `stabilize-pr`. See [stabilize-pr reference](../../skills-guide/skills/stabilize-pr.md).
+Both of these are called out as checkpoints in `stabilize-pr`. See [stabilize-pr reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/stabilize-pr.md).
 
 ## 6. Verifying the deploy
 
@@ -75,7 +75,7 @@ After merge, the orchestrator runs `finalize-sdlc` which:
 3. Posts a structured closeout comment on the linked issue.
 4. Updates the epic issue's checklist with a tick for this feature.
 
-If any step fails, `finalize-sdlc` escalates — it will not silently skip a failed smoke test. See [finalize-sdlc reference](../../skills-guide/skills/finalize-sdlc.md).
+If any step fails, `finalize-sdlc` escalates — it will not silently skip a failed smoke test. See [finalize-sdlc reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/finalize-sdlc.md).
 
 ## 7. Hand-off to the team
 
@@ -91,7 +91,7 @@ Share the PR link and the closeout comment with your team. If you opened the gre
 ## 8. Common greenfield pitfalls
 
 - **Under-specified PRD.** If the PRD has fewer than 5 explicit acceptance criteria, the orchestrator will either loop at Phase 1 asking for more or make up criteria. Give it concrete, testable statements.
-- **Two greenfield runs on overlapping code.** Use two worktrees and two slugs. See [worktree-safety rule](../../../rules/worktree-safety.md).
+- **Two greenfield runs on overlapping code.** Use two worktrees and two slugs. See [worktree-safety rule](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/worktree-safety.md).
 - **Skipping scope assessment.** Phase 2a is cheap and catches the single most common class of mistake (missing security/UX review on a feature that touches auth or UI). Never tell the orchestrator to skip it.
 - **Confusing "merge-ready" with "deployed."** Phase 5 ends at merge-ready. You still have to click merge. Phase 8 is the one that actually validates deploy.
 

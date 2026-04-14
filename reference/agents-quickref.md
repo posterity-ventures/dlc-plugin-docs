@@ -2,7 +2,7 @@
 
 Subagents are lightweight child agents the main agent dispatches for focused work. They run in isolation, with their own context window, and return a single message back when done. This page covers both **repo-local agents** (defined in `.claude/agents/*.md` in this repo) and **platform agents** (provided by the Claude Code runtime).
 
-See [agents reference](../../skills-guide/agents.md) for the full architectural picture.
+See [agents reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/agents.md) for the full architectural picture.
 
 ## Repo-local agents (`.claude/agents/`)
 
@@ -74,11 +74,11 @@ A **skill** is a structured workflow (a file with phases and rules) that the cur
 
 You invoke a skill with a slash command or a natural-language trigger. You dispatch a subagent with the `Agent` tool. Skills and agents are composable: a skill can dispatch subagents, and a subagent can invoke skills.
 
-See [skills-guide concepts](../../skills-guide/concepts.md) for the full architectural distinction.
+See [skills-guide concepts](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/concepts.md) for the full architectural distinction.
 
 ## Related
 
-- [agents reference (full)](../../skills-guide/agents.md)
+- [agents reference (full)](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/agents.md)
 - [Skills Quick Reference](skills-quickref.md)
 - [Cheatsheet](cheatsheet.md)
 - [Glossary](glossary.md)
