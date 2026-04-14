@@ -10,7 +10,12 @@ This directory contains the visual diagrams embedded throughout the onboarding g
 | [sdlc-lifecycle.png](sdlc-lifecycle.png) | [README.md](../README.md) | AI-DLC 8-phase lifecycle, horizontal |
 | [skill-agent-hook-rule.png](skill-agent-hook-rule.png) | [README.md](../README.md) | Four building blocks and how they interact |
 | [artifacts-lifecycle.png](artifacts-lifecycle.png) | [core-workflow.md](../core-workflow.md) | `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/` layout with permanent vs transient |
-| [gitlab-flow.png](gitlab-flow.png) | [cheatsheet.md](../reference/cheatsheet.md) | Branching model — feature → main → staging → prod |
+| [gitlab-flow.png](gitlab-flow.png) | [cheatsheet.md](../reference/cheatsheet.md), [core-workflow.md §9](../core-workflow.md#9-branching-model-configuration) | GitLab Flow — feature → main → staging → prod |
+| [github-flow.png](github-flow.png) | [core-workflow.md §9](../core-workflow.md#9-branching-model-configuration) | GitHub Flow — single `main`, continuous deploy |
+| [gitflow.png](gitflow.png) | [core-workflow.md §9](../core-workflow.md#9-branching-model-configuration) | Gitflow — `develop` + `main` with release branches |
+| [trunk-based.png](trunk-based.png) | [core-workflow.md §9](../core-workflow.md#9-branching-model-configuration) | Trunk-Based — short-lived branches, feature-flag gated |
+| [product-discovery.png](product-discovery.png) | [playbooks/discovery.md](../playbooks/discovery.md), [core-workflow.md §5](../core-workflow.md#5-end-to-end-walkthrough) | Discovery pipeline: raw idea → framework → `discovery.md` brief |
+| [discovery-framework-modes.png](discovery-framework-modes.png) | [playbooks/discovery.md](../playbooks/discovery.md) | Six framework paths grid (JTBD+Lean Canvas default, SWOT+Kano, Porter+BMC, OST, Working Backward, Help me choose) |
 | [worktree-isolation.png](worktree-isolation.png) | [core-workflow.md](../core-workflow.md) | Shared `.git/` + independent worktree checkouts |
 | [product-dev-handoff.png](product-dev-handoff.png) | [product-dev-collaboration.md](../playbooks/product-dev-collaboration.md) | Swimlane handoff between Product and Dev |
 | [hooks-telemetry.png](hooks-telemetry.png) | [cheatsheet.md](../reference/cheatsheet.md) | Tool-call lifecycle with hook insertion and telemetry sink |
@@ -36,7 +41,7 @@ When regenerating or adding a new image, copy the preamble from `_style.md` into
 
 ## How the images were generated
 
-The onboarding guide diagrams are generated via the `image-generation` skill, which wraps the `mcp-image` MCP server (backed by Gemini). See the [image-generation skill reference](../../skills-guide/skills/image-generation.md) and [mcp.md](../../skills-guide/mcp.md) for server configuration.
+The onboarding guide diagrams are generated via the `image-generation` skill, which wraps the `mcp-image` MCP server (backed by Gemini). See the [image-generation skill reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/image-generation.md) and [mcp.md](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/mcp.md) for server configuration.
 
 Invocation pattern:
 
@@ -63,19 +68,11 @@ The generator writes to `${IMAGE_OUTPUT_DIR}/<fileName>` where `IMAGE_OUTPUT_DIR
 
 ## Regenerating the entire set
 
-All 12 images can be regenerated in a single Claude Code session by asking the agent to "regenerate all images in `.claude/docs/onboarding-guide/images/` from their `.prompt.md` files using `/image-generation`." The generation is deterministic with respect to the prompt — the same prompt should produce visually similar output each time, though not pixel-identical (generative models have inherent variance).
+All images in this directory can be regenerated in a single Claude Code session by asking the agent to "regenerate all images in `images/` from their `.prompt.md` files using `/image-generation`." The generation is deterministic with respect to the prompt — the same prompt should produce visually similar output each time, though not pixel-identical (generative models have inherent variance).
 
 ## Path handling note
 
-At the time of initial generation, the `mcp-image` server in this environment had an unresolved `${PROJECT_DIR}` variable in its internal output path template, causing images to land at `/workspaces/k2_mvp/${PROJECT_DIR}/tmp/<fileName>` literally. The workaround used at generation time was a symlink:
-
-```bash
-mkdir -p '/workspaces/k2_mvp/${PROJECT_DIR}'
-ln -sfn /workspaces/k2_mvp/.worktrees/chore/ai-dlc-docs-refresh/.claude/docs/onboarding-guide/images \
-  '/workspaces/k2_mvp/${PROJECT_DIR}/tmp'
-```
-
-If the server config is ever fixed upstream, this symlink becomes unnecessary. If regeneration lands files in the wrong place, re-apply the symlink or adjust the `mcp-image` server's `IMAGE_OUTPUT_DIR` env var and restart Claude Code.
+The `mcp-image` server writes to its configured output directory (`IMAGE_OUTPUT_DIR` env var, defaulting to `./output/` relative to the Claude Code working directory). If regenerated files land somewhere unexpected, check `IMAGE_OUTPUT_DIR` in `.claude/settings.json`'s `mcp-image` env block, move the files into place, and commit from this repo.
 
 ## Extension note
 

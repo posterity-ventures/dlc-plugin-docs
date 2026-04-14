@@ -17,11 +17,11 @@ Verify the install:
 
 ```bash
 claude --version
-cd /path/to/k2_mvp
+cd /path/to/your-repo
 claude   # launches an interactive session
 ```
 
-If you see the Claude Code prompt and the session loads without warnings, you're ready. If MCP servers complain about missing env vars, populate `.env` with the keys listed in [skills-guide/mcp.md](../skills-guide/mcp.md#environment-variables) and restart.
+If you see the Claude Code prompt and the session loads without warnings, you're ready. If MCP servers complain about missing env vars, populate `.env` with the keys listed in [skills-guide/mcp.md](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/mcp.md#environment-variables) and restart.
 
 ## 2. Your first session — the one-line path
 
@@ -88,6 +88,8 @@ Here is what a single feature looks like end-to-end in confident mode. You type 
 > /orchestrate-sdlc add rate limiting to the /login endpoint; confident
 ```
 
+> **Is your idea still fuzzy?** If you don't have a PRD yet and the feature description above would be hard for you to write, start with `/product-discovery` (or its alias `/discover`) first. It runs a framework-driven discovery session — JTBD + Lean Canvas by default, with five frameworks to choose from — and produces a `discovery.md` brief that feeds directly into Phase 1. See the [product-discovery playbook](playbooks/discovery.md) for the selection guide and outputs.
+
 1. **Phase 1 — Requirements.** The orchestrator asks whether you have a PRD or want one generated, then invokes `analyze-requirements` to write `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/add-login-rate-limiting/requirements.prd.md`. Presents a summary and asks: "Proceed to scope assessment?" You approve.
 
 2. **Phase 2a — Scope assessment.** The orchestrator checks trigger rules and detects a security trigger (authentication code path). It tells you so and asks whether to run `review-security` before design. You say yes.
@@ -122,7 +124,7 @@ Done. The feature is shipped, the issue is closed, and `${DLC_ARTIFACT_ROOT:-ai_
 Worth flagging up front so you can avoid them:
 
 - **Pushing to `main` directly.** The `push-protection` rule refuses. Use `/orchestrate-sdlc`, or `/push-to-main` if you know what you're doing (it still asks).
-- **Running Claude Code in the main working directory when multiple SDLCs are in flight.** Use worktrees. The orchestrator creates them for you automatically — just don't `cd` back to the repo root to "check something" and then invoke a skill, or you'll operate on the wrong branch. See [worktree-safety.md](../../rules/worktree-safety.md).
+- **Running Claude Code in the main working directory when multiple SDLCs are in flight.** Use worktrees. The orchestrator creates them for you automatically — just don't `cd` back to the repo root to "check something" and then invoke a skill, or you'll operate on the wrong branch. See [worktree-safety.md](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/worktree-safety.md).
 
   ![Worktree isolation](images/worktree-isolation.png)
 
@@ -138,7 +140,7 @@ The orchestrator applies a few universal guardrails regardless of mode:
 - **Never skip Phase 1 (requirements) or Phase 2c (tech design).** Even autopilot pauses if they can't complete.
 - **Never skip UX review when triggered.** Reading source code is not a substitute for live screenshots.
 - **Never modify `.claude/` files** unless you explicitly ask. That directory is user-owned.
-- **Never force-push, never squash a promotion PR.** See [branching.md](../../rules/branching.md) for why.
+- **Never force-push, never squash a promotion PR.** See [branching.md](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/branching.md) for why.
 
 Those are the rails. Everything else is negotiable.
 
@@ -153,7 +155,25 @@ The branching model is declared in `.claude/branching.json` and consumed by skil
 | `gitflow` | `develop` | `main` | `main` |
 | `trunk-based` | `main` | *(none)* | `main` |
 
-To adopt a different model, replace `.claude/branching.json` with the matching preset from `.claude/skills/_shared/branching-model.md`. Skills that depend on branch names (`hotfix`, `prepare-pr`, `push-protection`) read from the config automatically — no code changes required.
+### Visual reference for each preset
+
+**GitLab Flow** (this repo's default):
+
+![GitLab Flow](images/gitlab-flow.png)
+
+**GitHub Flow** — single long-lived `main`, continuous deploy on merge:
+
+![GitHub Flow](images/github-flow.png)
+
+**Gitflow** — long-lived `develop` + `main` with release and hotfix branches:
+
+![Gitflow](images/gitflow.png)
+
+**Trunk-Based Development** — short-lived branches, feature-flag gated:
+
+![Trunk-Based](images/trunk-based.png)
+
+To adopt a different model, replace `.claude/branching.json` with the matching preset from [`skills/_shared/branching-model.md`](https://github.com/posterity-ventures/dlc-plugin/blob/main/skills/_shared/branching-model.md). Skills that depend on branch names (`hotfix`, `prepare-pr`, `push-protection`) read from the config automatically — no code changes required.
 
 Skills without branching assumptions (`analyze-requirements`, `produce-tech-design`, `plan-implementation`, `build-unit-tests`, `review-security`, `review-ux`, `maintain-docs`, `image-generation`) work on any flow regardless of config.
 

@@ -41,12 +41,13 @@ Each playbook is a self-contained walkthrough with commands, expected artifacts,
 
 | Playbook | Situation |
 |----------|-----------|
+| [Product discovery](playbooks/discovery.md) | Raw idea, no scope yet — pick a framework (JTBD, Lean Canvas, SWOT+Kano, Porter's Five Forces, OST, Working Backward) and produce a grounded `discovery.md` brief that feeds `/analyze-requirements` |
 | [Greenfield product development](playbooks/greenfield.md) | Starting from a PRD or product brief with no existing code — go from idea to first deploy |
 | [Proof of concept](playbooks/poc.md) | Lightweight path that skips heavy gates, with criteria for promoting a POC to production work |
 | [Brownfield maintenance](playbooks/brownfield.md) | Bug fixes, small features, working inside legacy code, test-coverage strategy |
 | [Modernization](playbooks/modernization.md) | Large refactors, incremental migration, risk management, rollback planning |
 | [Troubleshooting](playbooks/troubleshooting.md) | Common failure modes (CI loops, worktree collisions, hook failures, stale artifacts, MCP errors), diagnostic commands, escalation paths |
-| [Product ↔ Dev collaboration](playbooks/product-dev-collaboration.md) | Cross-team handoff: Product runs `/analyze-requirements` and `/create-issues`, Dev runs `/orchestrate-sdlc`, both sides run UAT |
+| [Product ↔ Dev collaboration](playbooks/product-dev-collaboration.md) | Cross-team handoff: Product runs `/product-discovery` → `/analyze-requirements` → `/create-issues`, Dev runs `/orchestrate-sdlc`, both sides run UAT |
 
 ### Reference
 

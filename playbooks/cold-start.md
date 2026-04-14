@@ -60,7 +60,7 @@ The skill supports 5 product frameworks. Choose the one that fits your scenario:
 | **Opportunity Solution Tree** | Mapping outcomes to opportunities, solutions, and assumption tests |
 | **Working Backward (PR/FAQ)** | Pressure-testing a concept by writing the customer-facing narrative first |
 
-**Not sure which to pick?** Select "Help me choose" when prompted — the skill asks 3-5 diagnostic questions about your product stage, goals, and data availability, then recommends the best fit using a scoring algorithm. See the [product-discovery reference](../../skills-guide/skills/product-discovery.md) for the full routing matrix.
+**Not sure which to pick?** Select "Help me choose" when prompted — the skill asks 3-5 diagnostic questions about your product stage, goals, and data availability, then recommends the best fit using a scoring algorithm. See the [product-discovery reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/product-discovery.md) for the full routing matrix.
 
 The output is a structured discovery brief (`discovery.md`) with framework analysis, MoSCoW backlog, RAID log, and scope-cluster recommendations. The brief feeds directly into requirements analysis in the next step.
 
@@ -118,4 +118,4 @@ Maps are persistent artifacts. If you mapped `api/` last week and are starting a
 
 - Ready to deliver the feature? Chain into `/orchestrate-sdlc`.
 - Want to explore more before committing? Run `/map-codebase` on additional subsystems.
-- Need to create tracking issues? See [create-issues skill reference](../../skills-guide/skills/create-issues.md).
+- Need to create tracking issues? See [create-issues skill reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/create-issues.md).

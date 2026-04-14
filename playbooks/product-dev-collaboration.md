@@ -37,7 +37,7 @@ The skill asks you to choose a product framework (or select "Help me choose" for
 
 The output is a structured discovery brief (`discovery.md`) with framework analysis, MoSCoW backlog, RAID log, and scope-cluster recommendations. It feeds directly into `/analyze-requirements` in the next step.
 
-**Skip this step** if you already have a clear feature description, a product brief, or a GitHub issue with defined scope. See [product-discovery reference](../../skills-guide/skills/product-discovery.md) for the full workflow.
+**Skip this step** if you already have a clear feature description, a product brief, or a GitHub issue with defined scope. See [product-discovery reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/product-discovery.md) for the full workflow.
 
 ## 1. Product side — starting from a brief
 
@@ -55,7 +55,7 @@ Paste the brief when asked. The skill will:
 
 You edit the PRD in place. It lands at `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/requirements.prd.md`. The PRD is a markdown file in the repo — commit it on a branch so dev can see it.
 
-See [analyze-requirements reference](../../skills-guide/skills/analyze-requirements.md) for the full workflow.
+See [analyze-requirements reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/analyze-requirements.md) for the full workflow.
 
 ## 2. Product side — creating the tracking issues
 
@@ -100,7 +100,7 @@ During implementation, dev may hit an ambiguity. Two options:
 - **Small ambiguity**: dev makes a judgment call and notes it in the tech design's Decisions Log. Product reviews it at UAT.
 - **Large ambiguity**: the orchestrator escalates by posting a comment on the issue tagging product with a specific question and waits for a reply. Dev does not try to guess.
 
-The [sdlc-intake reference](../../skills-guide/skills/sdlc-intake.md) documents this handoff. It is the same mechanism the orchestrator uses for escalations to its human user — just routed through GitHub comments when the human is on the product side.
+The [sdlc-intake reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/sdlc-intake.md) documents this handoff. It is the same mechanism the orchestrator uses for escalations to its human user — just routed through GitHub comments when the human is on the product side.
 
 ## 6. UAT — when the PR is ready
 
@@ -163,4 +163,4 @@ The handoff steps above are still useful as **self-checkpoints**: after each ski
 
 - First time doing this? Both sides should skim [core-workflow.md](../core-workflow.md).
 - Product wants to understand the dev side: see [greenfield.md](greenfield.md) and [brownfield.md](brownfield.md) for the dev walkthroughs.
-- Dev wants to understand the product side: the product-facing skills are [product-discovery](../../skills-guide/skills/product-discovery.md), [analyze-requirements](../../skills-guide/skills/analyze-requirements.md), and [create-issues](../../skills-guide/skills/create-issues.md).
+- Dev wants to understand the product side: the product-facing skills are [product-discovery](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/product-discovery.md), [analyze-requirements](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/analyze-requirements.md), and [create-issues](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/create-issues.md).

@@ -10,7 +10,7 @@ Every term used in this guide, defined in one sentence. When in doubt about jarg
 
 **AI-DLC** — AI-Driven Development Lifecycle; the system of skills, agents, hooks, and rules that automates the SDLC in this repo.
 
-**analyze-requirements** — the skill that turns a plain-language brief into a full PRD. See [reference](../../skills-guide/skills/analyze-requirements.md).
+**analyze-requirements** — the skill that turns a plain-language brief into a full PRD. See [reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/analyze-requirements.md).
 
 **Artifact** — a structured document under `${DLC_ARTIFACT_ROOT:-ai_dlc_artifacts}/<slug>/` (PRD, design, plan, state, reviews, telemetry) that forms a feature's audit trail.
 
@@ -20,7 +20,7 @@ Every term used in this guide, defined in one sentence. When in doubt about jarg
 
 ## B
 
-**babysit-pr** — a skill that runs the review-stabilize loop on a PR with a no-progress counter for long-running stabilization. See [reference](../../skills-guide/skills/babysit-pr.md).
+**babysit-pr** — a skill that runs the review-stabilize loop on a PR with a no-progress counter for long-running stabilization. See [reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/babysit-pr.md).
 
 **Branching (GitLab Flow)** — `feature/* → main → staging → prod`; `main` is the integration branch and `staging`/`prod` receive downstream merges only.
 
@@ -42,7 +42,7 @@ Every term used in this guide, defined in one sentence. When in doubt about jarg
 
 **Coverage gate** — the 60% unit-test coverage threshold enforced by `build-unit-tests` at the end of each epic.
 
-**create-issues** — the skill that decomposes a PRD into GitHub issues (epic + children). See [reference](../../skills-guide/skills/create-issues.md).
+**create-issues** — the skill that decomposes a PRD into GitHub issues (epic + children). See [reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/create-issues.md).
 
 ## D
 
@@ -70,7 +70,7 @@ Every term used in this guide, defined in one sentence. When in doubt about jarg
 
 **Feature branch** — a branch named `feat/<slug>` / `fix/<slug>` / `chore/<slug>` / `refactor/<slug>` created by `sdlc-intake` for a single SDLC run.
 
-**finalize-sdlc** — the Phase 7–8 skill that cleans up transient artifacts, waits for deploy, runs smoke tests, closes the linked issue, updates the epic checklist. See [reference](../../skills-guide/skills/finalize-sdlc.md).
+**finalize-sdlc** — the Phase 7–8 skill that cleans up transient artifacts, waits for deploy, runs smoke tests, closes the linked issue, updates the epic checklist. See [reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/finalize-sdlc.md).
 
 **Flux** — the GitOps reconciler used in this repo to deploy Kubernetes workloads by updating `image-tags.env`; see [CLAUDE.local.md](../../../../CLAUDE.local.md#deployment).
 
@@ -102,7 +102,7 @@ Every term used in this guide, defined in one sentence. When in doubt about jarg
 
 ## M
 
-**maintain-docs** — the skill that handles documentation upkeep in SDLC-integrated, standalone, or changelog modes. See [reference](../../skills-guide/skills/maintain-docs.md).
+**maintain-docs** — the skill that handles documentation upkeep in SDLC-integrated, standalone, or changelog modes. See [reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/skills/maintain-docs.md).
 
 **MCP (Model Context Protocol)** — the protocol Claude Code uses to connect to external tool servers (context7, mcp-image); servers are configured under `mcpServers` in `.claude/settings.json`.
 
@@ -116,7 +116,7 @@ Every term used in this guide, defined in one sentence. When in doubt about jarg
 
 **Opus** — the strongest Claude tier; used by the orchestrator and skills that require high judgment (coding-agent, review).
 
-**orchestrate-sdlc** — the top-level SDLC dispatcher skill invoked as `/orchestrate-sdlc`. See [reference](../../skills-guide/orchestrator.md).
+**orchestrate-sdlc** — the top-level SDLC dispatcher skill invoked as `/orchestrate-sdlc`. See [reference](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/orchestrator.md).
 
 ## P
 
@@ -136,7 +136,7 @@ Every term used in this guide, defined in one sentence. When in doubt about jarg
 
 **produce-tech-design** — the Phase 2c skill that writes a tech design with decisions, work-item DAG, and epic breakdown.
 
-**Promotion PR** — a PR that promotes code from `main` → `staging` or `staging` → `prod`; must use a merge commit (never squash) per [branching rule](../../../rules/branching.md).
+**Promotion PR** — a PR that promotes code from `main` → `staging` or `staging` → `prod`; must use a merge commit (never squash) per [branching rule](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/branching.md).
 
 ## Q
 
@@ -192,7 +192,7 @@ Every term used in this guide, defined in one sentence. When in doubt about jarg
 
 ## T
 
-**task-scope rule** — the rule that enforces "do exactly what was asked, confirm before extras"; see [rule](../../../rules/task-scope.md).
+**task-scope rule** — the rule that enforces "do exactly what was asked, confirm before extras"; see [rule](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/task-scope.md).
 
 **Tech design** — the `designs/tech-design.md` artifact produced by `produce-tech-design` in Phase 2c.
 
@@ -212,11 +212,11 @@ Every term used in this guide, defined in one sentence. When in doubt about jarg
 
 **Worktree** — a `git worktree`-isolated checkout of the feature branch at `.worktrees/<work-type>/<slug>`; created by `sdlc-intake` so multiple SDLC runs can proceed in parallel without stepping on each other.
 
-**Worktree-safety rule** — the rule that bans force-checkout and enforces worktree isolation; see [rule](../../../rules/worktree-safety.md).
+**Worktree-safety rule** — the rule that bans force-checkout and enforces worktree isolation; see [rule](https://github.com/posterity-ventures/dlc-plugin/blob/main/rules/worktree-safety.md).
 
 ## Related
 
 - [Skills Quick Reference](skills-quickref.md)
 - [Agents Quick Reference](agents-quickref.md)
 - [Cheatsheet](cheatsheet.md)
-- [skills-guide concepts](../../skills-guide/concepts.md) — deeper architectural treatment
+- [skills-guide concepts](https://github.com/posterity-ventures/dlc-plugin/blob/main/docs/skills-guide/concepts.md) — deeper architectural treatment
